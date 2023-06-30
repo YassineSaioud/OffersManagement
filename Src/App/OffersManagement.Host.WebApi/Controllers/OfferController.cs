@@ -12,31 +12,30 @@ namespace OffersManagement.Host.WebApi.Controllers
 
         public OfferController(IOfferAdapter offerAdapter)
         {
-
             _offerAdapter = offerAdapter;
         }
 
         [HttpGet]
         [Route("All")]
-        public ActionResult<IEnumerable<OfferModel>> GetAllOffers()
+        public ActionResult<IEnumerable<OfferModel>> GetAll()
         {
-            var offersModel = _offerAdapter.GetOffers();
+            var offersModel = _offerAdapter.GetAll();
             return Ok(offersModel);
         }
 
         [HttpPost]
         [Route("Add")]
-        public IActionResult AddOffer(OfferModel model)
+        public IActionResult Create(OfferModel model)
         {
-            _offerAdapter.AddOffer(model);
+            _offerAdapter.Create(model);
             return Ok();
         }
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult UpdateOffer(OfferModel model)
+        public IActionResult Update(OfferModel model)
         {
-            _offerAdapter.UpdateOffer(model);
+            _offerAdapter.Update(model);
             return Ok();
         }
 

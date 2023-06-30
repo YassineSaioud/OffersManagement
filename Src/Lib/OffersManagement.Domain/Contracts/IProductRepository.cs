@@ -4,7 +4,7 @@ namespace OffersManagement.Domain.Contracts
 {
     public interface IProductRepository
     {
-        Product GetProduct(int productId);
+        IEnumerable<Product> GetAll();
         void AddProduct(Product product);
         void UpdateProduct(Product product);
     }

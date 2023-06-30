@@ -2,8 +2,9 @@
 
 namespace OffersManagement.Domain.Contracts
 {
-    public interface IOfferCommandReader
+    public interface IOfferUpdateCommand
     {
-        IEnumerable<Offer> GetOffers();
+        void Handle(Offer offer);
     }
 }
+

@@ -5,37 +5,40 @@ namespace OffersManagement.Host.WebApi
     public class OfferAdapter
         : IOfferAdapter
     {
-        private readonly IOfferCommandReader _offerCommandReader;
-        private readonly IOfferCommandWriter _offerCommandWriter;
+        private readonly IOfferGetQuery _offerGetQuery;
+        private readonly IOfferCreateCommand _offerCreateCommand;
+        private readonly IOfferUpdateCommand _offerUpdateCommand;
         private readonly IOfferConverter _offerConverter;
 
-        public OfferAdapter(IOfferCommandReader offerCommandReader,
-                            IOfferCommandWriter offerCommandWriter,
-                            IOfferConverter offerConverter)
+        public OfferAdapter(IOfferConverter offerConverter,
+                            IOfferGetQuery offerGetQuery,
+                            IOfferCreateCommand offerCreateCommand,
+                            IOfferUpdateCommand offerUpdateCommand)
         {
-            _offerCommandReader = offerCommandReader;
-            _offerCommandWriter = offerCommandWriter;
             _offerConverter = offerConverter;
+            _offerGetQuery = offerGetQuery;
+            _offerCreateCommand = offerCreateCommand;
+            _offerUpdateCommand = offerUpdateCommand;
         }
 
-        public IEnumerable<OfferModel> GetOffers()
+        public IEnumerable<OfferModel> GetAll()
         {
-            var offers = _offerCommandReader.GetOffers();
+            var offers = _offerGetQuery.Handle();
             var offerModels = _offerConverter.Convert(offers);
 
             return offerModels;
         }
 
-        public void AddOffer(OfferModel offerModel)
+        public void Create(OfferModel offerModel)
         {
             var offer = _offerConverter.Convert(offerModel);
-            _offerCommandWriter.AddOffer(offer);
+            _offerCreateCommand.Handle(offer);
         }
 
-        public void UpdateOffer(OfferModel offerModel)
+        public void Update(OfferModel offerModel)
         {
             var offer = _offerConverter.Convert(offerModel);
-            _offerCommandWriter.UpdaterOffer(offer);
+            _offerUpdateCommand.Handle(offer);
         }
 
     }

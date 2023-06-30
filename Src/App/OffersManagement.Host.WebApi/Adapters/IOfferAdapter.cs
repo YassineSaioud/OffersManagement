@@ -4,8 +4,8 @@ namespace OffersManagement.Host.WebApi
 {
     public interface IOfferAdapter
     {
-        IEnumerable<OfferModel> GetOffers();
-        void AddOffer(OfferModel offer);
-        void UpdateOffer(OfferModel offer);
+        IEnumerable<OfferModel> GetAll();
+        void Create(OfferModel offer);
+        void Update(OfferModel offer);
     }
 }

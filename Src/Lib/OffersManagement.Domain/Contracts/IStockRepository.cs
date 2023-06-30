@@ -6,7 +6,7 @@ namespace OffersManagement.Domain.Contracts
     {
         Stock GetStockByProductId(int productId);
         void AddStock(Stock stock);
-        void UndoStock(Stock stock);
+        void UpdateStock(Stock stock);
     }
 }
 

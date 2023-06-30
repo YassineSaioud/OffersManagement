@@ -1,11 +1,17 @@
-using OffersManagement.Application.Commands;
+using Npgsql;
+using OffersManagement.Application.Offer;
 using OffersManagement.Domain.Contracts;
 using OffersManagement.Host.WebApi;
+using OffersManagement.Infrastructure;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+IConfiguration configuration = new ConfigurationBuilder()
+                                  .AddJsonFile("appsettings.json", true, true)
+                                  .Build();
 
+// Add services to the container.
 var services = builder.Services;
 {
     services.AddControllers();
@@ -17,8 +23,14 @@ var services = builder.Services;
     // Dependency Injections
     services.AddScoped<IOfferAdapter, OfferAdapter>();
     services.AddScoped<IOfferConverter, OfferConverter>();
-    services.AddScoped<IOfferCommandReader, OfferCommandReader>();
-    services.AddScoped<IOfferCommandWriter, OfferCommandWriter>();
+    services.AddScoped<IOfferGetQuery, OfferGetQuery>();
+    services.AddScoped<IOfferCreateCommand, OfferCreateCommand>();
+    services.AddScoped<IOfferCreateCommand, OfferCreateCommand>();
+    services.AddScoped<IOfferUpdateCommand, OfferUpdateCommand>();
+    services.AddSingleton<IDbConnection>(db => new NpgsqlConnection(configuration.GetConnectionString("OffersDatabase")));
+    services.AddScoped<IProductRepository, ProductRepository>();
+    services.AddScoped<IPriceRepository, PriceRepository>();
+    services.AddScoped<IStockRepository, StockRepository>();
 
 }
 
