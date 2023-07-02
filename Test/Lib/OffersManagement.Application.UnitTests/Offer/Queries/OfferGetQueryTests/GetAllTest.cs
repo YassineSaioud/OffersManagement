@@ -30,7 +30,7 @@ namespace OffersManagement.Application.UnitTests.Offer.Queries.OfferGetQueryTest
                 _productRepository.Setup(s => s.GetAll())
                                   .Returns(_products);
 
-                _sut = new OfferGetQuery(_productRepository.Object); 
+                _sut = new OfferGetQuery(_productRepository.Object);
             }
 
             protected override void When()

@@ -1,7 +1,5 @@
-﻿using Dapper;
-using OffersManagement.Domain.Contracts;
+﻿using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
-using System.Data;
 
 namespace OffersManagement.Infrastructure
 {
@@ -9,28 +7,28 @@ namespace OffersManagement.Infrastructure
         : IPriceRepository
     {
 
-        private readonly IDbConnection _dbConnection;
+        private readonly IDapperWrapper _dapperWrapper;
 
-        public PriceRepository(IDbConnection dbConnection)
+        public PriceRepository(IDapperWrapper dbConnection)
         {
-            _dbConnection = dbConnection;
+            _dapperWrapper = dbConnection;
         }
 
         public Price GetPriceByProductId(int productId)
         {
-            var sqlQuery = "SELECT * FROM price WHERE product_id=@product_id";
-            var dbPrice = _dbConnection.QuerySingle(sqlQuery, new
+            var sqlQuery = "SELECT product_id,value FROM price WHERE product_id=@product_id";
+            var dbPrice = _dapperWrapper.QuerySingle<PriceDto>(sqlQuery, new
             {
                 product_id = productId
             });
 
-            return new Price((int)dbPrice.product_id, dbPrice.value);
+            return new Price((int)dbPrice.ProductId, dbPrice.Value);
         }
 
         public void AddPrice(Price price)
         {
             var sqlQuery = "INSERT INTO price(product_id,value) VALUES (@product_id,@value)";
-            _dbConnection.Execute(sqlQuery, new
+            _dapperWrapper.Execute(sqlQuery, new
             {
                 product_id = price.ProductId,
                 value = price.Value
@@ -40,7 +38,7 @@ namespace OffersManagement.Infrastructure
         public void UpdatePrice(Price price)
         {
             var sqlQuery = "UPDATE price SET value=@value WHERE product_id=@product_id";
-            _dbConnection.Execute(sqlQuery, new
+            _dapperWrapper.Execute(sqlQuery, new
             {
                 product_id = price.ProductId,
                 value = price.Value

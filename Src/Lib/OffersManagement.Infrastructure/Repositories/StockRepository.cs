@@ -9,28 +9,28 @@ namespace OffersManagement.Infrastructure
         : IStockRepository
     {
 
-        private readonly IDbConnection _dbConnection;
+        private readonly IDapperWrapper _dapperWrapper;
 
-        public StockRepository(IDbConnection dbConnection)
+        public StockRepository(IDapperWrapper dapperWrapper)
         {
-            _dbConnection = dbConnection;
+            _dapperWrapper = dapperWrapper;
         }
 
         public Stock GetStockByProductId(int productId)
         {
-            var sqlQuery = $"SELECT * FROM stock WHERE product_id=@product_id";
-            var dbStock = _dbConnection.QuerySingle(sqlQuery, new
+            var sqlQuery = $"SELECT product_id,quantity FROM stock WHERE product_id=@product_id";
+            var dbStock = _dapperWrapper.QuerySingle<StockDto>(sqlQuery, new
             {
                 product_id = productId
             });
 
-            return new Stock((int)dbStock.product_id, dbStock.quantity);
+            return new Stock(dbStock.ProductId, dbStock.Quantity);
         }
 
         public void AddStock(Stock stock)
         {
             var sqlQuery = $"INSERT INTO stock(product_id,quantity) VALUES (@product_id,@quantity)";
-            _dbConnection.Execute(sqlQuery, new
+            _dapperWrapper.Execute(sqlQuery, new
             {
                 product_id = stock.ProductId,
                 quantity = stock.Quantity
@@ -40,7 +40,7 @@ namespace OffersManagement.Infrastructure
         public void UpdateStock(Stock stock)
         {
             var sqlQuery = "UPDATE stock SET quantity=@quantity WHERE product_id=@product_id";
-            _dbConnection.Execute(sqlQuery, new
+            _dapperWrapper.Execute(sqlQuery, new
             {
                 product_id = stock.ProductId,
                 quantity = stock.Quantity
