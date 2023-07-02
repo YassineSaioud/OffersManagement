@@ -17,7 +17,7 @@ namespace OffersManagement.Host.WebApi.Controllers
 
         [HttpGet]
         [Route("All")]
-        public ActionResult<IEnumerable<OfferModel>> GetAll()
+        public IActionResult GetAll()
         {
             var offersModel = _offerService.GetAll();
             return Ok(offersModel);

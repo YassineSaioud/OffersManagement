@@ -12,9 +12,7 @@ namespace OffersManagement.Application.Offer
             _productRepository = productRepository;
         }
 
-        public void Handle(Domain.Entities.Offer offer)
-        {
-            _productRepository.UpdateProduct(offer.Product);
-        }
+        public void Handle(Domain.Entities.Offer offer) 
+            => _productRepository.UpdateProduct(offer.Product);
     }
 }

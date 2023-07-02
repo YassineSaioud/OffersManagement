@@ -19,11 +19,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OffersManagement.Applicatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{1A2D0540-FE0C-4868-B968-17FF2DCE4BAF}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-		db_filling_tables.sql = db_filling_tables.sql
 		db_create_tables.sql = db_create_tables.sql
+		db_filling_tables.sql = db_filling_tables.sql
+		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagement.Host.WebApi.UnitTests", "Test\App\OffersManagement.Host.WebApi.UnitTests\OffersManagement.Host.WebApi.UnitTests.csproj", "{FB1F5968-2A35-4A73-A900-C82D7A359E95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3ACADB3D-12D6-42A5-9E77-26294CE5651A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{169FF548-1550-401F-A841-8BB1508245E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{724A6488-D4AA-4124-8046-AE540FDE9578}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagement.Application.UnitTests", "Test\Lib\OffersManagement.Application.UnitTests\OffersManagement.Application.UnitTests.csproj", "{B1F20C67-006D-4EC6-BB8B-FE051BDC2947}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagement.Infrastructure.UnitTests", "Test\Lib\OffersManagement.Infrastructure.UnitTests\OffersManagement.Infrastructure.UnitTests.csproj", "{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +59,18 @@ Global
 		{F9E20F82-DAF2-4C2A-A586-5B9DE8BD6B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9E20F82-DAF2-4C2A-A586-5B9DE8BD6B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9E20F82-DAF2-4C2A-A586-5B9DE8BD6B97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB1F5968-2A35-4A73-A900-C82D7A359E95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB1F5968-2A35-4A73-A900-C82D7A359E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB1F5968-2A35-4A73-A900-C82D7A359E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB1F5968-2A35-4A73-A900-C82D7A359E95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F20C67-006D-4EC6-BB8B-FE051BDC2947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F20C67-006D-4EC6-BB8B-FE051BDC2947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F20C67-006D-4EC6-BB8B-FE051BDC2947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F20C67-006D-4EC6-BB8B-FE051BDC2947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +82,11 @@ Global
 		{EB3EB2A8-C839-4B44-9465-BF24A75D7CD4} = {F84BA7DA-1748-4BF9-A47C-34B9D66C1A83}
 		{DD1D1228-4912-40FA-BEC7-D22093718FCB} = {F84BA7DA-1748-4BF9-A47C-34B9D66C1A83}
 		{F9E20F82-DAF2-4C2A-A586-5B9DE8BD6B97} = {F84BA7DA-1748-4BF9-A47C-34B9D66C1A83}
+		{FB1F5968-2A35-4A73-A900-C82D7A359E95} = {169FF548-1550-401F-A841-8BB1508245E7}
+		{169FF548-1550-401F-A841-8BB1508245E7} = {3ACADB3D-12D6-42A5-9E77-26294CE5651A}
+		{724A6488-D4AA-4124-8046-AE540FDE9578} = {3ACADB3D-12D6-42A5-9E77-26294CE5651A}
+		{B1F20C67-006D-4EC6-BB8B-FE051BDC2947} = {724A6488-D4AA-4124-8046-AE540FDE9578}
+		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8} = {724A6488-D4AA-4124-8046-AE540FDE9578}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B85DB85-79B0-4CBC-BD93-D572FA85B58B}
