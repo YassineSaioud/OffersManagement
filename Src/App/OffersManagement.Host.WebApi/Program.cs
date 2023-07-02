@@ -21,7 +21,7 @@ var services = builder.Services;
     services.AddSwaggerGen();
 
     // Dependency Injections
-    services.AddScoped<IOfferAdapter, OfferAdapter>();
+    services.AddScoped<IOfferService, OfferService>();
     services.AddScoped<IOfferConverter, OfferConverter>();
     services.AddScoped<IOfferGetQuery, OfferGetQuery>();
     services.AddScoped<IOfferCreateCommand, OfferCreateCommand>();

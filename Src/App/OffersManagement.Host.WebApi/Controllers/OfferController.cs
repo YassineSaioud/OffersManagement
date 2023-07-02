@@ -8,18 +8,18 @@ namespace OffersManagement.Host.WebApi.Controllers
         : ControllerBase
     {
 
-        private readonly IOfferAdapter _offerAdapter;
+        private readonly IOfferService _offerService;
 
-        public OfferController(IOfferAdapter offerAdapter)
+        public OfferController(IOfferService offerService)
         {
-            _offerAdapter = offerAdapter;
+            _offerService = offerService;
         }
 
         [HttpGet]
         [Route("All")]
         public ActionResult<IEnumerable<OfferModel>> GetAll()
         {
-            var offersModel = _offerAdapter.GetAll();
+            var offersModel = _offerService.GetAll();
             return Ok(offersModel);
         }
 
@@ -27,7 +27,7 @@ namespace OffersManagement.Host.WebApi.Controllers
         [Route("Add")]
         public IActionResult Create(OfferModel model)
         {
-            _offerAdapter.Create(model);
+            _offerService.Create(model);
             return Ok();
         }
 
@@ -35,7 +35,7 @@ namespace OffersManagement.Host.WebApi.Controllers
         [Route("Update")]
         public IActionResult Update(OfferModel model)
         {
-            _offerAdapter.Update(model);
+            _offerService.Update(model);
             return Ok();
         }
 

@@ -2,15 +2,15 @@
 
 namespace OffersManagement.Host.WebApi
 {
-    public class OfferAdapter
-        : IOfferAdapter
+    public class OfferService
+        : IOfferService
     {
         private readonly IOfferGetQuery _offerGetQuery;
         private readonly IOfferCreateCommand _offerCreateCommand;
         private readonly IOfferUpdateCommand _offerUpdateCommand;
         private readonly IOfferConverter _offerConverter;
 
-        public OfferAdapter(IOfferConverter offerConverter,
+        public OfferService(IOfferConverter offerConverter,
                             IOfferGetQuery offerGetQuery,
                             IOfferCreateCommand offerCreateCommand,
                             IOfferUpdateCommand offerUpdateCommand)

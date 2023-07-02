@@ -2,7 +2,7 @@
 
 namespace OffersManagement.Host.WebApi
 {
-    public interface IOfferAdapter
+    public interface IOfferService
     {
         IEnumerable<OfferModel> GetAll();
         void Create(OfferModel offer);
