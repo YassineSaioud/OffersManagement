@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagement.Host.WebApi.UnitTests", "Test\App\OffersManagement.Host.WebApi.UnitTests\OffersManagement.Host.WebApi.UnitTests.csproj", "{FB1F5968-2A35-4A73-A900-C82D7A359E95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OffersManagement.Host.WebApi.UnitTests", "Test\App\OffersManagement.Host.WebApi.UnitTests\OffersManagement.Host.WebApi.UnitTests.csproj", "{FB1F5968-2A35-4A73-A900-C82D7A359E95}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3ACADB3D-12D6-42A5-9E77-26294CE5651A}"
 EndProject
@@ -33,9 +33,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{169FF548-155
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{724A6488-D4AA-4124-8046-AE540FDE9578}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagement.Application.UnitTests", "Test\Lib\OffersManagement.Application.UnitTests\OffersManagement.Application.UnitTests.csproj", "{B1F20C67-006D-4EC6-BB8B-FE051BDC2947}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OffersManagement.Application.UnitTests", "Test\Lib\OffersManagement.Application.UnitTests\OffersManagement.Application.UnitTests.csproj", "{B1F20C67-006D-4EC6-BB8B-FE051BDC2947}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagement.Infrastructure.UnitTests", "Test\Lib\OffersManagement.Infrastructure.UnitTests\OffersManagement.Infrastructure.UnitTests.csproj", "{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OffersManagement.Infrastructure.UnitTests", "Test\Lib\OffersManagement.Infrastructure.UnitTests\OffersManagement.Infrastructure.UnitTests.csproj", "{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagement.Host.WebApi.Integration.Tests", "Test\App\OffersManagement.Host.WebApi.Integration.Tests\OffersManagement.Host.WebApi.Integration.Tests.csproj", "{DBF81847-20E1-4DC3-8DB5-2D2A18577F2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBF81847-20E1-4DC3-8DB5-2D2A18577F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBF81847-20E1-4DC3-8DB5-2D2A18577F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBF81847-20E1-4DC3-8DB5-2D2A18577F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBF81847-20E1-4DC3-8DB5-2D2A18577F2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{724A6488-D4AA-4124-8046-AE540FDE9578} = {3ACADB3D-12D6-42A5-9E77-26294CE5651A}
 		{B1F20C67-006D-4EC6-BB8B-FE051BDC2947} = {724A6488-D4AA-4124-8046-AE540FDE9578}
 		{71EFDCE9-3BEB-4FFF-ADF1-966A916AE4E8} = {724A6488-D4AA-4124-8046-AE540FDE9578}
+		{DBF81847-20E1-4DC3-8DB5-2D2A18577F2B} = {169FF548-1550-401F-A841-8BB1508245E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B85DB85-79B0-4CBC-BD93-D572FA85B58B}
