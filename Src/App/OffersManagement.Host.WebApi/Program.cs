@@ -44,6 +44,8 @@ var app = builder.Build();
         app.UseSwaggerUI();
     }
 
+    app.UseExceptionHandler(configuration["ErrorHandling:Path"]);
+
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
