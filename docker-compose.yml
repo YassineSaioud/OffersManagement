@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8543:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=sarenzaUser
+      - POSTGRES_PASSWORD=sarenza2023
+      - POSTGRES_DB=offers
+    volumes: 
+          - ./db_create_tables.sql:/docker-entrypoint-initdb.d/db_create_tables.sql
+          - ./db_filling_tables.sql:/docker-entrypoint-initdb.d/db_filling_tables.sql

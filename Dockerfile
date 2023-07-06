@@ -3,20 +3,19 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["OffersManagement.csproj", "."]
-RUN dotnet restore "./OffersManagement.csproj"
+COPY ["Src/App/OffersManagement.Host.WebApi/OffersManagement.Host.WebApi.csproj", "."]
+RUN dotnet restore "./OffersManagement.Host.WebApi.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "OffersManagement.csproj" -c Release -o /app/build
+RUN dotnet build "Src/App/OffersManagement.Host.WebApi/OffersManagement.Host.WebApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "OffersManagement.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Src/App/OffersManagement.Host.WebApi/OffersManagement.Host.WebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "OffersManagement.dll"]
+ENTRYPOINT ["dotnet", "OffersManagement.Host.WebApi.dll"]
