@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
+    using System.Net;
 
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController
@@ -26,7 +27,9 @@
                                     Type = "logs",
                                 });
 
-            return Problem(title: AnInternalErrorAsOccurred, detail: context.Error.Message);
+            return Problem(title: AnInternalErrorAsOccurred,
+                           statusCode: (int)HttpStatusCode.InternalServerError,
+                           detail: context.Error.Message);
         }
     }
 }
