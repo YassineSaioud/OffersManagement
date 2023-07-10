@@ -2,8 +2,8 @@
 
 namespace OffersManagement.Domain.Contracts
 {
-    public interface IOfferCreateCommand
+    public interface IOfferCreateCommandHandler
     {
-        void Handle(Offer offer);
+        Task<int> HandleAsync(Offer offer);
     }
 }

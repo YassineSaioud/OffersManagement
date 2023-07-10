@@ -8,7 +8,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
     {
 
         public class Given_ProductRepository_When_Update_Offer
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
             private Mock<IPriceRepository> _priceRepository = new();
@@ -23,37 +23,37 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
                 var stockToUpdate = new Stock(1, 100);
                 _productToUpdate = new Product(1, "T-Shirt", "Sarenza", "XL", priceToUpdate, stockToUpdate);
 
-                _dapperWrapper.Setup(s => s.Execute(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()))
                               .Verifiable();
 
-                _priceRepository.Setup(s => s.UpdatePrice(It.IsAny<Price>())).Verifiable();
+                _priceRepository.Setup(s => s.UpdatePriceAsync(It.IsAny<Price>())).Verifiable();
 
-                _stockRepository.Setup(s => s.UpdateStock(It.IsAny<Stock>())).Verifiable();
+                _stockRepository.Setup(s => s.UpdateStockAsync(It.IsAny<Stock>())).Verifiable();
 
                 _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _sut.UpdateProduct(_productToUpdate);
+                await _sut.UpdateProductAsync(_productToUpdate);
             }
 
             [Fact]
             public void Then_Should_Update_Product()
             {
-                _dapperWrapper.Verify(v => v.Execute(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
+                _dapperWrapper.Verify(v => v.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
             }
 
             [Fact]
             public void Then_Should_Update_Price()
             {
-                _priceRepository.Verify(s => s.UpdatePrice(It.IsAny<Price>()), Times.Once);
+                _priceRepository.Verify(s => s.UpdatePriceAsync(It.IsAny<Price>()), Times.Once);
             }
 
             [Fact]
             public void Then_Should_Update_Stock()
             {
-                _stockRepository.Verify(s => s.UpdateStock(It.IsAny<Stock>()), Times.Once);
+                _stockRepository.Verify(s => s.UpdateStockAsync(It.IsAny<Stock>()), Times.Once);
             }
 
         }

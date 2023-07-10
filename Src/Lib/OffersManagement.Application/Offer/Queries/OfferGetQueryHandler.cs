@@ -2,20 +2,20 @@
 
 namespace OffersManagement.Application.Offer
 {
-    public class OfferGetQuery
-        : IOfferGetQuery
+    public class OfferGetQueryHandler
+        : IOfferGetQueryHandler
 
     {
         private readonly IProductRepository _productRepository;
 
-        public OfferGetQuery(IProductRepository productRepository)
+        public OfferGetQueryHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public IEnumerable<Domain.Entities.Offer> Handle()
+        public async Task<IEnumerable<Domain.Entities.Offer>> HandleAsync()
         {
-            var products = _productRepository.GetAll();
+            var products = await _productRepository.GetAllAsync();
             return from product in products
                    select new Domain.Entities.Offer(product);
         }

@@ -1,7 +1,5 @@
-﻿using Dapper;
-using OffersManagement.Domain.Contracts;
+﻿using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
-using System.Data;
 
 namespace OffersManagement.Infrastructure
 {
@@ -16,10 +14,10 @@ namespace OffersManagement.Infrastructure
             _dapperWrapper = dapperWrapper;
         }
 
-        public Stock GetStockByProductId(int productId)
+        public async Task<Stock> GetStockByProductIdAsync(int productId)
         {
             var sqlQuery = $"SELECT product_id,quantity FROM stock WHERE product_id=@product_id";
-            var dbStock = _dapperWrapper.QuerySingle<StockDto>(sqlQuery, new
+            var dbStock = await _dapperWrapper.QuerySingleAsync<StockDto>(sqlQuery, new
             {
                 product_id = productId
             });
@@ -27,24 +25,27 @@ namespace OffersManagement.Infrastructure
             return new Stock(dbStock.ProductId, dbStock.Quantity);
         }
 
-        public void AddStock(Stock stock)
+        public async Task<int> AddStockAsync(Stock stock)
         {
             var sqlQuery = $"INSERT INTO stock(product_id,quantity) VALUES (@product_id,@quantity)";
-            _dapperWrapper.Execute(sqlQuery, new
+            var result = await _dapperWrapper.ExecuteAsync(sqlQuery, new
             {
                 product_id = stock.ProductId,
                 quantity = stock.Quantity
             });
+
+            return result;
         }
 
-        public void UpdateStock(Stock stock)
+        public async Task<int> UpdateStockAsync(Stock stock)
         {
             var sqlQuery = "UPDATE stock SET quantity=@quantity WHERE product_id=@product_id";
-            _dapperWrapper.Execute(sqlQuery, new
+            var result = await _dapperWrapper.ExecuteAsync(sqlQuery, new
             {
                 product_id = stock.ProductId,
                 quantity = stock.Quantity
             });
+            return result;
         }
 
     }

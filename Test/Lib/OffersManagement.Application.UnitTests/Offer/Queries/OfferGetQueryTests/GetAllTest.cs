@@ -9,11 +9,11 @@ namespace OffersManagement.Application.UnitTests.Offer.Queries.OfferGetQueryTest
     public class GetAllTest
     {
         public class Given_OfferUpdateCommand_When_Get_All_Offers
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private readonly Mock<IProductRepository> _productRepository = new();
 
-            private OfferGetQuery _sut;
+            private OfferGetQueryHandler _sut;
             private IEnumerable<Domain.Entities.Offer> _result;
 
             private List<Product> _products;
@@ -27,15 +27,15 @@ namespace OffersManagement.Application.UnitTests.Offer.Queries.OfferGetQueryTest
                     new Product(3, "T-Shirt", "Sarenza", "L", new Price(3, 30), new Stock(3, 50))
                 };
 
-                _productRepository.Setup(s => s.GetAll())
-                                  .Returns(_products);
+                _productRepository.Setup(s => s.GetAllAsync())
+                                  .ReturnsAsync(_products);
 
-                _sut = new OfferGetQuery(_productRepository.Object);
+                _sut = new OfferGetQueryHandler(_productRepository.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _result = _sut.Handle();
+                _result = await _sut.HandleAsync();
             }
 
             [Fact]

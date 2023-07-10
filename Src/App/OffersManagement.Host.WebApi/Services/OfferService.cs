@@ -5,15 +5,15 @@ namespace OffersManagement.Host.WebApi
     public class OfferService
         : IOfferService
     {
-        private readonly IOfferGetQuery _offerGetQuery;
-        private readonly IOfferCreateCommand _offerCreateCommand;
-        private readonly IOfferUpdateCommand _offerUpdateCommand;
+        private readonly IOfferGetQueryHandler _offerGetQuery;
+        private readonly IOfferCreateCommandHandler _offerCreateCommand;
+        private readonly IOfferUpdateCommandHandler _offerUpdateCommand;
         private readonly IOfferConverter _offerConverter;
 
         public OfferService(IOfferConverter offerConverter,
-                            IOfferGetQuery offerGetQuery,
-                            IOfferCreateCommand offerCreateCommand,
-                            IOfferUpdateCommand offerUpdateCommand)
+                            IOfferGetQueryHandler offerGetQuery,
+                            IOfferCreateCommandHandler offerCreateCommand,
+                            IOfferUpdateCommandHandler offerUpdateCommand)
         {
             _offerConverter = offerConverter;
             _offerGetQuery = offerGetQuery;
@@ -21,24 +21,24 @@ namespace OffersManagement.Host.WebApi
             _offerUpdateCommand = offerUpdateCommand;
         }
 
-        public IEnumerable<OfferModel> GetAll()
+        public async Task<IEnumerable<OfferModel>> GetAllAsync()
         {
-            var offers = _offerGetQuery.Handle();
+            var offers = await _offerGetQuery.HandleAsync();
             var offerModels = _offerConverter.Convert(offers);
 
             return offerModels;
         }
 
-        public void Create(OfferModel offerModel)
+        public async Task<int> CreateAsync(OfferModel offerModel)
         {
             var offer = _offerConverter.Convert(offerModel);
-            _offerCreateCommand.Handle(offer);
+            return await _offerCreateCommand.HandleAsync(offer);
         }
 
-        public void Update(OfferModel offerModel)
+        public async Task<int> UpdateAsync(OfferModel offerModel)
         {
             var offer = _offerConverter.Convert(offerModel);
-            _offerUpdateCommand.Handle(offer);
+            return await _offerUpdateCommand.HandleAsync(offer);
         }
 
     }

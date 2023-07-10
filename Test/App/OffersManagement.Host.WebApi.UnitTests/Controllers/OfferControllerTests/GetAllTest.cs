@@ -9,7 +9,7 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferControllerTest
     public class GetAllTest
     {
         public class Given_OfferController_When_GelAllOffers
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
 
             private OfferController _sut;
@@ -19,7 +19,7 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferControllerTest
 
             protected override void Given()
             {
-                _offerService.Setup(o => o.GetAll()).Returns(new List<OfferModel>
+                _offerService.Setup(o => o.GetAllAsync()).ReturnsAsync(new List<OfferModel>
                                                     {
                                                         new OfferModel(1, "T-Shirt", "Sarenza", "M", 50, 20),
                                                         new OfferModel(2, "T-Shirt", "Sarenza", "L", 40, 70)
@@ -28,9 +28,9 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferControllerTest
                 _sut = new OfferController(_offerService.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _result = _sut.GetAll();
+                _result = await _sut.GetAllAsync();
             }
 
             [Fact]

@@ -2,9 +2,9 @@
 {
     public interface IDapperWrapper
     {
-        IEnumerable<T> Query<T>(string sql, object parameters = null);
-        T QuerySingle<T>(string sql, object parameters = null);
-        int Execute(string sql, object parameters = null);
+        Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null);
+        Task<T> QuerySingleAsync<T>(string sql, object parameters = null);
+        Task<int> ExecuteAsync(string sql, object parameters = null);
     }
 }
 

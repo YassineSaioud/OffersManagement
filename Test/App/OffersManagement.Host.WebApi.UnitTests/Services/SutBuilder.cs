@@ -6,9 +6,9 @@ namespace OffersManagement.Host.WebApi.UnitTests.Services
 {
     public class SutBuilder
     {
-        private readonly Mock<IOfferGetQuery> _offerGetQuery = new();
-        private readonly Mock<IOfferCreateCommand> _offerCreateCommand = new();
-        private readonly Mock<IOfferUpdateCommand> _offerUpdateCommand = new();
+        private readonly Mock<IOfferGetQueryHandler> _offerGetQuery = new();
+        private readonly Mock<IOfferCreateCommandHandler> _offerCreateCommand = new();
+        private readonly Mock<IOfferUpdateCommandHandler> _offerUpdateCommand = new();
         private readonly Mock<IOfferConverter> _offerConverter = new();
 
         private readonly List<Offer> _offers = new()
@@ -25,22 +25,22 @@ namespace OffersManagement.Host.WebApi.UnitTests.Services
 
         public SutBuilder WithHandleGetQuery()
         {
-            _offerGetQuery.Setup(o => o.Handle())
-                          .Returns(_offers);
+            _offerGetQuery.Setup(o => o.HandleAsync())
+                          .ReturnsAsync(_offers);
 
             return this;
         }
 
         public SutBuilder WithHandleCreateCommand()
         {
-            _offerCreateCommand.Setup(o => o.Handle(_offers.FirstOrDefault()));
+            _offerCreateCommand.Setup(o => o.HandleAsync(_offers.FirstOrDefault()));
 
             return this;
         }
 
         public SutBuilder WithHandleUpdateCommand()
         {
-            _offerUpdateCommand.Setup(o => o.Handle(_offers.FirstOrDefault()));
+            _offerUpdateCommand.Setup(o => o.HandleAsync(_offers.FirstOrDefault()));
 
             return this;
         }
@@ -63,21 +63,21 @@ namespace OffersManagement.Host.WebApi.UnitTests.Services
 
         public SutBuilder VerifyGetQueryIsHandled()
         {
-            _offerGetQuery.Verify(o => o.Handle(), Times.Once);
+            _offerGetQuery.Verify(o => o.HandleAsync(), Times.Once);
 
             return this;
         }
 
         public SutBuilder VerifyCreateCommandIsHandled()
         {
-            _offerCreateCommand.Verify(o => o.Handle(_offers.FirstOrDefault()), Times.Once);
+            _offerCreateCommand.Verify(o => o.HandleAsync(_offers.FirstOrDefault()), Times.Once);
 
             return this;
         }
 
         public SutBuilder VerifyUpdateCommandIsHandled()
         {
-            _offerUpdateCommand.Verify(o => o.Handle(_offers.FirstOrDefault()), Times.Once);
+            _offerUpdateCommand.Verify(o => o.HandleAsync(_offers.FirstOrDefault()), Times.Once);
 
             return this;
         }

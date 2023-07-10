@@ -16,6 +16,6 @@
         protected abstract void Given();
 
         protected abstract void When();
-
     }
 }
+

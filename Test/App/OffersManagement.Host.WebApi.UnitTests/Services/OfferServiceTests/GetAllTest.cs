@@ -6,7 +6,7 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferServiceTests
     public class GetAllTest
     {
         public class Given_OfferService_When_GelAllOffers
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
 
             private SutBuilder _sutBuilder;
@@ -21,9 +21,9 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferServiceTests
                                   .Build();
             }
 
-            protected override void When()
+            protected override async  Task When()
             {
-                _result = _sut.GetAll();
+                _result = await _sut.GetAllAsync();
             }
 
             [Fact]

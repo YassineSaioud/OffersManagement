@@ -8,11 +8,11 @@ namespace OffersManagement.Application.UnitTests.Offer.Commands.OfferCreateComma
     public class CreateTest
     {
         public class Given_OfferCreateCommand_When_Create_Offer
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private readonly Mock<IProductRepository> _productRepository = new();
 
-            private OfferCreateCommand _sut;
+            private OfferCreateCommandHandler _sut;
 
             private Domain.Entities.Offer _offerToCreate;
             private Product _productToCreate;
@@ -24,21 +24,21 @@ namespace OffersManagement.Application.UnitTests.Offer.Commands.OfferCreateComma
                 _productToCreate = new Product(1, "T-Shirt", "Sarenza", "S", priceToCreate, stockToCreate);
                 _offerToCreate = new Domain.Entities.Offer(_productToCreate);
 
-                _productRepository.Setup(s => s.AddProduct(_productToCreate))
+                _productRepository.Setup(s => s.AddProductAsync(_productToCreate))
                                   .Verifiable();
 
-                _sut = new OfferCreateCommand(_productRepository.Object);
+                _sut = new OfferCreateCommandHandler(_productRepository.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _sut.Handle(_offerToCreate);
+                await _sut.HandleAsync(_offerToCreate);
             }
 
             [Fact]
             public void Then_Should_Create_Offer()
             {
-                _productRepository.Verify(v => v.AddProduct(_productToCreate));
+                _productRepository.Verify(v => v.AddProductAsync(_productToCreate));
             }
 
         }

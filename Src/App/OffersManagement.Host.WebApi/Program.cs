@@ -23,10 +23,10 @@ var services = builder.Services;
     // Dependency Injections
     services.AddScoped<IOfferService, OfferService>();
     services.AddScoped<IOfferConverter, OfferConverter>();
-    services.AddScoped<IOfferGetQuery, OfferGetQuery>();
-    services.AddScoped<IOfferCreateCommand, OfferCreateCommand>();
-    services.AddScoped<IOfferCreateCommand, OfferCreateCommand>();
-    services.AddScoped<IOfferUpdateCommand, OfferUpdateCommand>();
+    services.AddScoped<IOfferGetQueryHandler, OfferGetQueryHandler>();
+    services.AddScoped<IOfferCreateCommandHandler, OfferCreateCommandHandler>();
+    services.AddScoped<IOfferCreateCommandHandler, OfferCreateCommandHandler>();
+    services.AddScoped<IOfferUpdateCommandHandler, OfferUpdateCommandHandler>();
     services.AddSingleton<IDbConnection>(db => new NpgsqlConnection(configuration.GetConnectionString("OffersDatabase")));
     services.AddScoped<IDapperWrapper, DapperWrapper>();
     services.AddScoped<IProductRepository, ProductRepository>();

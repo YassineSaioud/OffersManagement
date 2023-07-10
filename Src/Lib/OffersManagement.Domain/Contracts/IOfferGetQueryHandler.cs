@@ -2,8 +2,8 @@
 
 namespace OffersManagement.Domain.Contracts
 {
-    public interface IOfferGetQuery
+    public interface IOfferGetQueryHandler
     {
-        IEnumerable<Offer> Handle();
+        Task<IEnumerable<Offer>> HandleAsync();
     }
 }

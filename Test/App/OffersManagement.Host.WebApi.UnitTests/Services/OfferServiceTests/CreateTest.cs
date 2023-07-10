@@ -3,7 +3,7 @@
     public class CreateTest
     {
         public class Given_OfferService_When_Create
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
 
             private SutBuilder _sutBuilder;
@@ -19,10 +19,10 @@
                                   .Build();
             }
 
-            protected override void When()
+            protected override async Task When()
             {
                 offerToCreate = new OfferModel(1, "T-Shirt", "Sarenza", "M", 50, 20);
-                _sut.Create(offerToCreate);
+                await _sut.CreateAsync(offerToCreate);
             }
 
 

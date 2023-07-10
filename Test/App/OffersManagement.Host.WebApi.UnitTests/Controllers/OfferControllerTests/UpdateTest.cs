@@ -9,7 +9,7 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferControllerTest
     public class UpdateTest
     {
         public class Given_OfferControlle_When_Update
-           : Given_When_Then_Test
+           : Given_When_Then_Test_Async
         {
 
             private OfferController _sut;
@@ -22,28 +22,28 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferControllerTest
             {
                 OfferToUpdate = new OfferModel(1, "T-Shirt", "Sarenza", "M", 50, 20);
 
-                _offerService.Setup(o => o.Update(OfferToUpdate))
+                _offerService.Setup(o => o.UpdateAsync(OfferToUpdate))
                              .Verifiable();
 
                 _sut = new OfferController(_offerService.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _result = _sut.Update(OfferToUpdate);
+                _result = await _sut.UpdateAsync(OfferToUpdate);
             }
 
             [Fact]
             public void Then_Should_Return_Ok_Result()
             {
-                var checkedResult = _result as OkResult;
+                var checkedResult = _result as OkObjectResult;
                 Check.That(checkedResult.StatusCode).Equals((int)HttpStatusCode.OK);
             }
 
             [Fact]
             public void Then_Should_Update_Offer()
             {
-                _offerService.Verify(v => v.Update(OfferToUpdate), Times.Once, "Should Update Offer.");
+                _offerService.Verify(v => v.UpdateAsync(OfferToUpdate), Times.Once, "Should Update Offer.");
             }
 
         }

@@ -8,7 +8,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
     {
 
         public class Given_PriceRepository_When_GetPriceByProduct
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
 
@@ -18,15 +18,15 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
 
             protected override void Given()
             {
-                _dapperWrapper.Setup(s => s.QuerySingle<PriceDto>(It.IsAny<string>(), It.IsAny<object>()))
-                              .Returns(new PriceDto { ProductId = 1, Value = 10 });
+                _dapperWrapper.Setup(s => s.QuerySingleAsync<PriceDto>(It.IsAny<string>(), It.IsAny<object>()))
+                              .ReturnsAsync(new PriceDto { ProductId = 1, Value = 10 });
 
                 _sut = new PriceRepository(_dapperWrapper.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _result = _sut.GetPriceByProductId(1);
+                _result = await _sut.GetPriceByProductIdAsync(1);
             }
 
             [Fact]

@@ -14,10 +14,10 @@ namespace OffersManagement.Infrastructure
             _dapperWrapper = dbConnection;
         }
 
-        public Price GetPriceByProductId(int productId)
+        public async Task<Price> GetPriceByProductIdAsync(int productId)
         {
             var sqlQuery = "SELECT product_id,value FROM price WHERE product_id=@product_id";
-            var dbPrice = _dapperWrapper.QuerySingle<PriceDto>(sqlQuery, new
+            var dbPrice = await _dapperWrapper.QuerySingleAsync<PriceDto>(sqlQuery, new
             {
                 product_id = productId
             });
@@ -25,24 +25,27 @@ namespace OffersManagement.Infrastructure
             return new Price((int)dbPrice.ProductId, dbPrice.Value);
         }
 
-        public void AddPrice(Price price)
+        public async Task<int> AddPriceAsync(Price price)
         {
             var sqlQuery = "INSERT INTO price(product_id,value) VALUES (@product_id,@value)";
-            _dapperWrapper.Execute(sqlQuery, new
+            var priceResult = await _dapperWrapper.ExecuteAsync(sqlQuery, new
             {
                 product_id = price.ProductId,
                 value = price.Value
             });
+
+            return priceResult;
         }
 
-        public void UpdatePrice(Price price)
+        public async Task<int> UpdatePriceAsync(Price price)
         {
             var sqlQuery = "UPDATE price SET value=@value WHERE product_id=@product_id";
-            _dapperWrapper.Execute(sqlQuery, new
+            var proceResult = await _dapperWrapper.ExecuteAsync(sqlQuery, new
             {
                 product_id = price.ProductId,
                 value = price.Value
             });
+            return proceResult;
         }
     }
 }

@@ -9,11 +9,11 @@ namespace OffersManagement.Application.UnitTests.Offer.Commands.OfferUpdateComma
     {
 
         public class Given_OfferUpdateCommand_When_Update_Offer
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private readonly Mock<IProductRepository> _productRepository = new();
 
-            private OfferUpdateCommand _sut;
+            private OfferUpdateCommandHandler _sut;
 
             private Domain.Entities.Offer _offerToUpdate;
             private Product _productToUpdate;
@@ -25,21 +25,21 @@ namespace OffersManagement.Application.UnitTests.Offer.Commands.OfferUpdateComma
                 _productToUpdate = new Product(1, "T-Shirt", "Sarenza", "XL", priceToUpdate, stockToUpdate);
                 _offerToUpdate = new Domain.Entities.Offer(_productToUpdate);
 
-                _productRepository.Setup(s => s.AddProduct(_productToUpdate))
+                _productRepository.Setup(s => s.AddProductAsync(_productToUpdate))
                                   .Verifiable();
 
-                _sut = new OfferUpdateCommand(_productRepository.Object);
+                _sut = new OfferUpdateCommandHandler(_productRepository.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _sut.Handle(_offerToUpdate);
+                await _sut.HandleAsync(_offerToUpdate);
             }
 
             [Fact]
             public void Then_Should_Update_Offer()
             {
-                _productRepository.Verify(v => v.UpdateProduct(_productToUpdate));
+                _productRepository.Verify(v => v.UpdateProductAsync(_productToUpdate));
             }
 
         }

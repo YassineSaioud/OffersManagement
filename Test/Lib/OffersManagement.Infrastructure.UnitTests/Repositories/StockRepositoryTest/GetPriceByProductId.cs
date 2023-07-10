@@ -8,7 +8,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
     {
 
         public class Given_StockRepository_When_GetStockByProduct
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
 
@@ -17,15 +17,15 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
 
             protected override void Given()
             {
-                _dapperWrapper.Setup(s => s.QuerySingle<StockDto>(It.IsAny<string>(), It.IsAny<object>()))
-                              .Returns(new StockDto { ProductId = 1, Quantity = 100 });
+                _dapperWrapper.Setup(s => s.QuerySingleAsync<StockDto>(It.IsAny<string>(), It.IsAny<object>()))
+                              .ReturnsAsync(new StockDto { ProductId = 1, Quantity = 100 });
 
                 _sut = new StockRepository(_dapperWrapper.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _result = _sut.GetStockByProductId(1);
+                _result = await _sut.GetStockByProductIdAsync(1);
             }
 
             [Fact]

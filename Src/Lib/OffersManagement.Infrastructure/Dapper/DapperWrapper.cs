@@ -14,21 +14,21 @@ namespace OffersManagement.Infrastructure
             _connection = connection;
         }
 
-        public IEnumerable<T> Query<T>(string sql, object parameters = null)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null)
         {
-            return _connection.Query<T>(sql, parameters);
+            return await _connection.QueryAsync<T>(sql, parameters);
         }
 
-        public T QuerySingle<T>(string sql, object parameters = null)
+        public async Task<T> QuerySingleAsync<T>(string sql, object parameters = null)
         {
-            return _connection.QuerySingle<T>(sql, parameters);
+            return await _connection.QuerySingleAsync<T>(sql, parameters);
         }
 
-        public int Execute(string sql, object parameters = null)
+        public async Task<int> ExecuteAsync(string sql, object parameters = null)
         {
-            return _connection.Execute(sql, parameters);
+            return await _connection.ExecuteAsync(sql, parameters);
         }
 
-       
+
     }
 }

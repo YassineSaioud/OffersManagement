@@ -7,7 +7,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
     {
 
         public class Given_StockRepository_When_Update_Stock
-              : Given_When_Then_Test
+              : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
 
@@ -19,21 +19,21 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
             {
                 _stockToUpdate = new Stock(1, 20);
 
-                _dapperWrapper.Setup(s => s.Execute(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()))
                               .Verifiable();
 
                 _sut = new StockRepository(_dapperWrapper.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _sut.UpdateStock(_stockToUpdate);
+               await _sut.UpdateStockAsync(_stockToUpdate);
             }
 
             [Fact]
             public void Schould_Update_Stock_For_Product()
             {
-                _dapperWrapper.Verify(s => s.Execute(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
+                _dapperWrapper.Verify(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
             }
 
         }

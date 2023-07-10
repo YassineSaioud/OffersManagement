@@ -7,7 +7,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
     public class CreateTest
     {
         public class Given_ProductRepository_When_Create_Offer
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
             private Mock<IPriceRepository> _priceRepository = new();
@@ -22,37 +22,37 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
                 var stockToCreate = new Stock(1, 50);
                 _productToCreate = new Product(1, "T-Shirt", "Sarenza", "S", priceToCreate, stockToCreate);
 
-                _dapperWrapper.Setup(s => s.Execute(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()))
                               .Verifiable();
 
-                _priceRepository.Setup(s => s.AddPrice(It.IsAny<Price>())).Verifiable();
+                _priceRepository.Setup(s => s.AddPriceAsync(It.IsAny<Price>())).Verifiable();
 
-                _stockRepository.Setup(s => s.AddStock(It.IsAny<Stock>())).Verifiable();
+                _stockRepository.Setup(s => s.AddStockAsync(It.IsAny<Stock>())).Verifiable();
 
                 _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _sut.AddProduct(_productToCreate);
+                await _sut.AddProductAsync(_productToCreate);
             }
 
             [Fact]
             public void Then_Should_Create_Product()
             {
-                _dapperWrapper.Verify(v => v.Execute(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
+                _dapperWrapper.Verify(v => v.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
             }
 
             [Fact]
             public void Then_Should_Create_Price()
             {
-                _priceRepository.Verify(s => s.AddPrice(It.IsAny<Price>()), Times.Once);
+                _priceRepository.Verify(s => s.AddPriceAsync(It.IsAny<Price>()), Times.Once);
             }
 
             [Fact]
             public void Then_Should_Create_Stock()
             {
-                _stockRepository.Verify(s => s.AddStock(It.IsAny<Stock>()), Times.Once);
+                _stockRepository.Verify(s => s.AddStockAsync(It.IsAny<Stock>()), Times.Once);
             }
 
 

@@ -1,12 +1,12 @@
 ﻿using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
-using System.Data;
 
 namespace OffersManagement.Infrastructure
 {
     public class ProductRepository
         : IProductRepository
     {
+        private const int SuccessDbExecute = 1;
         private readonly IDapperWrapper _dapperWrapper;
         private readonly IPriceRepository _priceRepository;
         private readonly IStockRepository _stockRepository;
@@ -20,52 +20,94 @@ namespace OffersManagement.Infrastructure
             _stockRepository = stockRepository;
         }
 
-        public IEnumerable<Product> GetAll()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
+            var productsResult = new List<Product>();
+
             var sqlQuery = "SELECT * FROM product";
-            var dbProducts = _dapperWrapper.Query<ProductDto>(sqlQuery);
-            if (dbProducts is not null)
+            var dbProducts = await _dapperWrapper.QueryAsync<ProductDto>(sqlQuery);
+            if (dbProducts is null)
             {
-                return
-                    from dbProduct in dbProducts
-                    select new Product(dbProduct.Id,
+                throw new ArgumentNullException(nameof(dbProducts));
+            }
+
+            foreach (var dbProduct in dbProducts)
+            {
+                var price = await _priceRepository.GetPriceByProductIdAsync(dbProduct.Id);
+                var stock = await _stockRepository.GetStockByProductIdAsync(dbProduct.Id);
+                productsResult.Add(new Product(dbProduct.Id,
                                        dbProduct.Name,
                                        dbProduct.Brand,
                                        dbProduct.Size,
-                                       _priceRepository.GetPriceByProductId(dbProduct.Id),
-                                       _stockRepository.GetStockByProductId(dbProduct.Id)
-                                       );
+                                       price,
+                                       stock
+                                   ));
             }
 
-            return Enumerable.Empty<Product>();
+            return productsResult;
         }
 
-        public void AddProduct(Product product)
+        public async Task<int> AddProductAsync(Product product)
         {
             var sqlQuery = "INSERT INTO product(id,name,brand,size) VALUES (@id,@name,@brand,@size)";
-            _dapperWrapper.Execute(sqlQuery, new
+            var productResult = await _dapperWrapper.ExecuteAsync(sqlQuery, new
             {
                 id = product.Id,
                 name = product.Name,
                 brand = product.Brand,
                 size = product.Size
             });
-            _priceRepository.AddPrice(product.Price);
-            _stockRepository.AddStock(product.Stock);
+
+            var priceResult = await _priceRepository.AddPriceAsync(product.Price);
+            var stockResult = await _stockRepository.AddStockAsync(product.Stock);
+
+            if (productResult != SuccessDbExecute)
+            {
+                throw new Exception("Product Add Not executed.");
+            }
+
+            if (priceResult != SuccessDbExecute)
+            {
+                throw new Exception("Price  Update Not executed.");
+            }
+
+            if (stockResult != SuccessDbExecute)
+            {
+                throw new Exception("Stock  Update Not executed.");
+            }
+
+            return productResult;
         }
 
-        public void UpdateProduct(Product product)
+        public async Task<int> UpdateProductAsync(Product product)
         {
             var sqlQuery = "UPDATE product SET name=@name,brand=@brand,size=@size WHERE id = @id";
-            _dapperWrapper.Execute(sqlQuery, new
+            var productResult = await _dapperWrapper.ExecuteAsync(sqlQuery, new
             {
                 id = product.Id,
                 name = product.Name,
                 brand = product.Brand,
                 size = product.Size
             });
-            _priceRepository.UpdatePrice(product.Price);
-            _stockRepository.UpdateStock(product.Stock);
+            var priceResult = await _priceRepository.UpdatePriceAsync(product.Price);
+            var stockResult = await _stockRepository.UpdateStockAsync(product.Stock);
+
+            if (productResult != SuccessDbExecute)
+            {
+                throw new Exception("Product Update Not executed.");
+            }
+
+            if (priceResult != SuccessDbExecute)
+            {
+                throw new Exception("Price  Update Not executed.");
+            }
+
+            if (stockResult != SuccessDbExecute)
+            {
+                throw new Exception("Stock  Update Not executed.");
+            }
+
+            return productResult;
         }
     }
 }

@@ -17,26 +17,26 @@ namespace OffersManagement.Host.WebApi.Controllers
 
         [HttpGet]
         [Route("All")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var offersModel = _offerService.GetAll();
+            var offersModel = await _offerService.GetAllAsync();
             return Ok(offersModel);
         }
 
         [HttpPost]
         [Route("Add")]
-        public IActionResult Create(OfferModel model)
+        public async Task<IActionResult> CreateAsync(OfferModel model)
         {
-            _offerService.Create(model);
-            return Ok();
+            var result = await _offerService.CreateAsync(model);
+            return Ok(result);
         }
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update(OfferModel model)
+        public async Task<IActionResult> UpdateAsync(OfferModel model)
         {
-            _offerService.Update(model);
-            return Ok();
+            var result = await _offerService.UpdateAsync(model);
+            return Ok(result);
         }
 
     }

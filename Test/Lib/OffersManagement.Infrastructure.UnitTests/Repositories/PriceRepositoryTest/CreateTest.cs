@@ -6,7 +6,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
     public class CreateTest
     {
         public class Given_PriceRepository_When_Create_Price
-               : Given_When_Then_Test
+               : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
 
@@ -18,21 +18,21 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
             {
                 _priceToCreate = new Price(1, 20);
 
-                _dapperWrapper.Setup(s => s.Execute(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()))
                               .Verifiable();
 
                 _sut = new PriceRepository(_dapperWrapper.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _sut.AddPrice(_priceToCreate);
+                await _sut.AddPriceAsync(_priceToCreate);
             }
 
             [Fact]
             public void Schould_Create_Price_For_Product()
             {
-                _dapperWrapper.Verify(s => s.Execute(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
+                _dapperWrapper.Verify(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
             }
 
         }

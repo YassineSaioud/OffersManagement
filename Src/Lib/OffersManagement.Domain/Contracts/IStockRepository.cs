@@ -4,9 +4,9 @@ namespace OffersManagement.Domain.Contracts
 {
     public interface IStockRepository
     {
-        Stock GetStockByProductId(int productId);
-        void AddStock(Stock stock);
-        void UpdateStock(Stock stock);
+        Task<Stock> GetStockByProductIdAsync(int productId);
+        Task<int> AddStockAsync(Stock stock);
+        Task<int> UpdateStockAsync(Stock stock);
     }
 }
 

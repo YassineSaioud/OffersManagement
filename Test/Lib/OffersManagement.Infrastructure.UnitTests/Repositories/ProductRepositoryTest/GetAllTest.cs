@@ -9,7 +9,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
     {
 
         public class Given_ProductRepository_When_GetAllOffers
-            : Given_When_Then_Test
+            : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
             private Mock<IPriceRepository> _priceRepository = new();
@@ -27,15 +27,15 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
                                   new ProductDto { Id = 3 , Brand = "Sarenza", Name="T-Shirt", Size ="L"}
                               };
 
-                _dapperWrapper.Setup(s => s.Query<ProductDto>(It.IsAny<string>(), It.IsAny<object>()))
-                              .Returns(_productDtos);
+                _dapperWrapper.Setup(s => s.QueryAsync<ProductDto>(It.IsAny<string>(), It.IsAny<object>()))
+                              .ReturnsAsync(_productDtos);
 
                 _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object);
             }
 
-            protected override void When()
+            protected override async Task When()
             {
-                _result = _sut.GetAll();
+                _result = await _sut.GetAllAsync();
             }
 
             [Fact]

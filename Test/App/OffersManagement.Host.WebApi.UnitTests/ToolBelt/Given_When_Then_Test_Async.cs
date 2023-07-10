@@ -1,8 +1,8 @@
-﻿namespace OffersManagement.Application.UnitTests
+﻿namespace OffersManagement.Host.WebApi.UnitTests
 {
-    public abstract class Given_When_Then_Test
+    public abstract class Given_When_Then_Test_Async
     {
-        protected Given_When_Then_Test()
+        protected Given_When_Then_Test_Async()
         {
             Setup();
         }
@@ -15,7 +15,7 @@
 
         protected abstract void Given();
 
-        protected abstract void When();
+        protected abstract Task When();
 
     }
 }
