@@ -2,7 +2,7 @@
 {
     public class UpdateTest
     {
-        public class Given_Service_When_Update
+        public class Given_OfferService_When_Update
            : Given_When_Then_Test
         {
 

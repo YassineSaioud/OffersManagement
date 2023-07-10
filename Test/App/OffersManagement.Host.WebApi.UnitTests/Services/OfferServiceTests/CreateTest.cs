@@ -2,7 +2,7 @@
 {
     public class CreateTest
     {
-        public class Given_Service_When_Create
+        public class Given_OfferService_When_Create
             : Given_When_Then_Test
         {
 

@@ -8,7 +8,7 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferControllerTest
 {
     public class CreateTest
     {
-        public class Given_A_OfferModel_When_Create
+        public class Given_OfferControlle_When_Create
            : Given_When_Then_Test
         {
 

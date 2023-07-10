@@ -8,7 +8,7 @@ namespace OffersManagement.Host.WebApi.UnitTests.Controllers.OfferControllerTest
 {
     public class UpdateTest
     {
-        public class Given_A_OfferModel_When_Update
+        public class Given_OfferControlle_When_Update
            : Given_When_Then_Test
         {
 
