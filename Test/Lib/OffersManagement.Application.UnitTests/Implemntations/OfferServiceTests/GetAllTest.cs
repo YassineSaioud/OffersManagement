@@ -1,10 +1,9 @@
 ﻿using Moq;
 using NFluent;
-using OffersManagement.Application.Offer;
 using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
 
-namespace OffersManagement.Application.UnitTests.Offer.Queries.OfferGetQueryTests
+namespace OffersManagement.Application.UnitTests.Implemntations.OfferServiceTests
 {
     public class GetAllTest
     {
@@ -13,8 +12,8 @@ namespace OffersManagement.Application.UnitTests.Offer.Queries.OfferGetQueryTest
         {
             private readonly Mock<IProductRepository> _productRepository = new();
 
-            private OfferGetQueryHandler _sut;
-            private IEnumerable<Domain.Entities.Offer> _result;
+            private OfferService _sut;
+            private IEnumerable<Offer> _result;
 
             private List<Product> _products;
 
@@ -30,12 +29,12 @@ namespace OffersManagement.Application.UnitTests.Offer.Queries.OfferGetQueryTest
                 _productRepository.Setup(s => s.GetAllAsync())
                                   .ReturnsAsync(_products);
 
-                _sut = new OfferGetQueryHandler(_productRepository.Object);
+                _sut = new OfferService(_productRepository.Object);
             }
 
             protected override async Task When()
             {
-                _result = await _sut.HandleAsync();
+                _result = await _sut.GetAllAsync();
             }
 
             [Fact]

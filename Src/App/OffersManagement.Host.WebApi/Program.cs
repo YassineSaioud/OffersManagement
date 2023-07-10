@@ -1,5 +1,5 @@
 using Npgsql;
-using OffersManagement.Application.Offer;
+using OffersManagement.Application;
 using OffersManagement.Domain.Contracts;
 using OffersManagement.Host.WebApi;
 using OffersManagement.Infrastructure;
@@ -23,10 +23,6 @@ var services = builder.Services;
     // Dependency Injections
     services.AddScoped<IOfferService, OfferService>();
     services.AddScoped<IOfferConverter, OfferConverter>();
-    services.AddScoped<IOfferGetQueryHandler, OfferGetQueryHandler>();
-    services.AddScoped<IOfferCreateCommandHandler, OfferCreateCommandHandler>();
-    services.AddScoped<IOfferCreateCommandHandler, OfferCreateCommandHandler>();
-    services.AddScoped<IOfferUpdateCommandHandler, OfferUpdateCommandHandler>();
     services.AddSingleton<IDbConnection>(db => new NpgsqlConnection(configuration.GetConnectionString("OffersDatabase")));
     services.AddScoped<IDapperWrapper, DapperWrapper>();
     services.AddScoped<IProductRepository, ProductRepository>();
