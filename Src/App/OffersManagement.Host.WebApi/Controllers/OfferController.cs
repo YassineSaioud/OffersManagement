@@ -23,12 +23,7 @@ namespace OffersManagement.Host.WebApi.Controllers
         [Route("All")]
         public async Task<IActionResult> GetAllAsync()
         {
-            var offers = await _offerService.GetAllAsync();
-            if (offers == null)
-            {
-                throw new ArgumentNullException(nameof(offers));
-            }
-
+            var offers = await _offerService.GetAllAsync();          
             var offersModel = _offerConverter.Convert(offers);
 
             return Ok(offersModel);
@@ -37,12 +32,7 @@ namespace OffersManagement.Host.WebApi.Controllers
         [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> CreateAsync(OfferModel model)
-        {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-
+        {          
             var offer = _offerConverter.Convert(model);
             var result = await _offerService.CreateAsync(offer);
 
@@ -52,12 +42,7 @@ namespace OffersManagement.Host.WebApi.Controllers
         [HttpPut]
         [Route("Update")]
         public async Task<IActionResult> UpdateAsync(OfferModel model)
-        {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-
+        {        
             var offer = _offerConverter.Convert(model);
             var result = await _offerService.UpdateAsync(offer);
 
