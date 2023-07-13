@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NFluent;
 using OffersManagement.Domain.Entities;
+using System.Data;
 
 namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepositoryTest
 {
@@ -11,16 +12,17 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
             : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
+            private Mock<IDbConnection> _dbProvider = new();
 
             private StockRepository _sut;
             private Stock _result;
 
             protected override void Given()
             {
-                _dapperWrapper.Setup(s => s.QuerySingleAsync<StockDto>(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.QuerySingleAsync<StockDto>(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()))
                               .ReturnsAsync(new StockDto { ProductId = 1, Quantity = 100 });
 
-                _sut = new StockRepository(_dapperWrapper.Object);
+                _sut = new StockRepository(_dapperWrapper.Object, _dbProvider.Object);
             }
 
             protected override async Task When()

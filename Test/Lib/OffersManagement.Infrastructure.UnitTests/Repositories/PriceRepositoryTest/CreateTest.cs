@@ -1,5 +1,6 @@
 ﻿using Moq;
 using OffersManagement.Domain.Entities;
+using System.Data;
 
 namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepositoryTest
 {
@@ -9,6 +10,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
                : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
+            private Mock<IDbConnection> _dbProvider = new();
 
 
             private PriceRepository _sut;
@@ -18,10 +20,10 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
             {
                 _priceToCreate = new Price(1, 20);
 
-                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()))
                               .Verifiable();
 
-                _sut = new PriceRepository(_dapperWrapper.Object);
+                _sut = new PriceRepository(_dapperWrapper.Object, _dbProvider.Object);
             }
 
             protected override async Task When()
@@ -32,7 +34,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
             [Fact]
             public void Schould_Create_Price_For_Product()
             {
-                _dapperWrapper.Verify(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
+                _dapperWrapper.Verify(s => s.ExecuteAsync(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()), Times.Once);
             }
 
         }

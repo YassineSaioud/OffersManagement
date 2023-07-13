@@ -23,7 +23,7 @@ var services = builder.Services;
     // Dependency Injections
     services.AddScoped<IOfferService, OfferService>();
     services.AddScoped<IOfferConverter, OfferConverter>();
-    services.AddSingleton<IDbConnection>(db => new NpgsqlConnection(configuration.GetConnectionString("OffersDatabase")));
+    services.AddScoped<IDbConnection>(db => new NpgsqlConnection(configuration.GetConnectionString("OffersDatabase")));
     services.AddScoped<IDapperWrapper, DapperWrapper>();
     services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<IPriceRepository, PriceRepository>();

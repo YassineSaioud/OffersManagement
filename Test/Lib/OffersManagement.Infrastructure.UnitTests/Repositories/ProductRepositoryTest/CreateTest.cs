@@ -1,6 +1,7 @@
 ﻿using Moq;
 using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
+using System.Data;
 
 namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductRepositoryTest
 {
@@ -12,6 +13,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
             private Mock<IDapperWrapper> _dapperWrapper = new();
             private Mock<IPriceRepository> _priceRepository = new();
             private Mock<IStockRepository> _stockRepository = new();
+            private Mock<IDbConnection> _dbProvider = new();
 
             private ProductRepository _sut;
             private Product _productToCreate;
@@ -22,14 +24,14 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
                 var stockToCreate = new Stock(1, 50);
                 _productToCreate = new Product(1, "T-Shirt", "Sarenza", "S", priceToCreate, stockToCreate);
 
-                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()))
                               .Verifiable();
 
                 _priceRepository.Setup(s => s.AddPriceAsync(It.IsAny<Price>())).Verifiable();
 
                 _stockRepository.Setup(s => s.AddStockAsync(It.IsAny<Stock>())).Verifiable();
 
-                _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object);
+                _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object, _dbProvider.Object);
             }
 
             protected override async Task When()
@@ -40,7 +42,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
             [Fact]
             public void Then_Should_Create_Product()
             {
-                _dapperWrapper.Verify(v => v.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
+                _dapperWrapper.Verify(v => v.ExecuteAsync(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()), Times.Once);
             }
 
             [Fact]

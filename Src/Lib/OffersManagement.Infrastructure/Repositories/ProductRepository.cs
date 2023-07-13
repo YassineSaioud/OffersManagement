@@ -1,23 +1,28 @@
 ﻿using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
+using System.Data;
 
 namespace OffersManagement.Infrastructure
 {
     public class ProductRepository
-        : IProductRepository
+        : DapperBase, IProductRepository
     {
-        private const int SuccessDbExecute = 1;
+
         private readonly IDapperWrapper _dapperWrapper;
         private readonly IPriceRepository _priceRepository;
         private readonly IStockRepository _stockRepository;
+        private readonly IDbConnection _dbProvider;
 
         public ProductRepository(IDapperWrapper dapperWrapper,
                                  IPriceRepository priceRepository,
-                                 IStockRepository stockRepository)
+                                 IStockRepository stockRepository,
+                                 IDbConnection provider)
+            : base(provider)
         {
             _dapperWrapper = dapperWrapper;
             _priceRepository = priceRepository;
             _stockRepository = stockRepository;
+            _dbProvider = provider;
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
@@ -25,7 +30,7 @@ namespace OffersManagement.Infrastructure
             var productsResult = new List<Product>();
 
             var sqlQuery = "SELECT * FROM product";
-            var dbProducts = await _dapperWrapper.QueryAsync<ProductDto>(sqlQuery);
+            var dbProducts = await _dapperWrapper.QueryAsync<ProductDto>(_dbProvider, sqlQuery);
             if (dbProducts is null)
             {
                 throw new ArgumentNullException(nameof(dbProducts));
@@ -49,65 +54,70 @@ namespace OffersManagement.Infrastructure
 
         public async Task<int> AddProductAsync(Product product)
         {
-            var sqlQuery = "INSERT INTO product(id,name,brand,size) VALUES (@id,@name,@brand,@size)";
-            var productResult = await _dapperWrapper.ExecuteAsync(sqlQuery, new
-            {
-                id = product.Id,
-                name = product.Name,
-                brand = product.Brand,
-                size = product.Size
-            });
+            _dbProvider.Open();
 
-            var priceResult = await _priceRepository.AddPriceAsync(product.Price);
-            var stockResult = await _stockRepository.AddStockAsync(product.Stock);
-
-            if (productResult != SuccessDbExecute)
+            using var transaction = _dbProvider.BeginTransaction();
+            try
             {
-                throw new Exception("Product Add Not executed.");
+                var sqlQuery = "INSERT INTO product(id,name,brand,size) VALUES (@id,@name,@brand,@size)";
+                var productResult = await _dapperWrapper.ExecuteAsync(_dbProvider, sqlQuery, new
+                {
+                    id = product.Id,
+                    name = product.Name,
+                    brand = product.Brand,
+                    size = product.Size
+                }, transaction);
+
+                var priceResult = await _priceRepository.AddPriceAsync(product.Price);
+                var stockResult = await _stockRepository.AddStockAsync(product.Stock);
+
+                transaction.Commit();              
+
+                return productResult;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
+            finally
+            {
+                _dbProvider.Dispose();
             }
 
-            if (priceResult != SuccessDbExecute)
-            {
-                throw new Exception("Price  Update Not executed.");
-            }
-
-            if (stockResult != SuccessDbExecute)
-            {
-                throw new Exception("Stock  Update Not executed.");
-            }
-
-            return productResult;
         }
 
         public async Task<int> UpdateProductAsync(Product product)
         {
-            var sqlQuery = "UPDATE product SET name=@name,brand=@brand,size=@size WHERE id = @id";
-            var productResult = await _dapperWrapper.ExecuteAsync(sqlQuery, new
+            _dbProvider.Open();
+            using var transaction = _dbProvider.BeginTransaction();
+            try
             {
-                id = product.Id,
-                name = product.Name,
-                brand = product.Brand,
-                size = product.Size
-            });
-            var priceResult = await _priceRepository.UpdatePriceAsync(product.Price);
-            var stockResult = await _stockRepository.UpdateStockAsync(product.Stock);
+                var sqlQuery = "UPDATE product SET name=@name,brand=@brand,size=@size WHERE id = @id";
+                var productResult = await _dapperWrapper.ExecuteAsync(_dbProvider, sqlQuery, new
+                {
+                    id = product.Id,
+                    name = product.Name,
+                    brand = product.Brand,
+                    size = product.Size
+                }, transaction);
+                var priceResult = await _priceRepository.UpdatePriceAsync(product.Price);
+                var stockResult = await _stockRepository.UpdateStockAsync(product.Stock);
 
-            if (productResult != SuccessDbExecute)
+                transaction.Commit();               
+
+                return productResult;
+            }
+            catch (Exception)
             {
-                throw new Exception("Product Update Not executed.");
+                transaction.Rollback();
+                throw;
+            }
+            finally
+            {
+                _dbProvider.Dispose();
             }
 
-            if (priceResult != SuccessDbExecute)
-            {
-                throw new Exception("Price  Update Not executed.");
-            }
-
-            if (stockResult != SuccessDbExecute)
-            {
-                throw new Exception("Stock  Update Not executed.");
-            }
-
-            return productResult;
         }
     }
 }

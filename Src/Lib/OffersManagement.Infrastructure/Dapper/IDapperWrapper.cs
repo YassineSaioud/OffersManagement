@@ -1,10 +1,12 @@
-﻿namespace OffersManagement.Infrastructure
+﻿using System.Data;
+
+namespace OffersManagement.Infrastructure
 {
     public interface IDapperWrapper
     {
-        Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null);
-        Task<T> QuerySingleAsync<T>(string sql, object parameters = null);
-        Task<int> ExecuteAsync(string sql, object parameters = null);
+        Task<IEnumerable<T>> QueryAsync<T>(IDbConnection provider, string sql, object parameters = null, IDbTransaction transaction = null);
+        Task<T> QuerySingleAsync<T>(IDbConnection provider, string sql, object parameters = null, IDbTransaction transaction = null);
+        Task<int> ExecuteAsync(IDbConnection provider, string sql, object parameters = null, IDbTransaction transaction = null);
     }
 }
 

@@ -7,28 +7,20 @@ namespace OffersManagement.Infrastructure
         : IDapperWrapper
     {
 
-        private readonly IDbConnection _connection;
-
-        public DapperWrapper(IDbConnection connection)
+        public async Task<IEnumerable<T>> QueryAsync<T>(IDbConnection provider, string sql, object parameters = null, IDbTransaction transaction = null)
         {
-            _connection = connection;
+            return await provider.QueryAsync<T>(sql, parameters, transaction);
         }
 
-        public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null)
+        public async Task<T> QuerySingleAsync<T>(IDbConnection provider, string sql, object parameters = null, IDbTransaction transaction = null)
         {
-            return await _connection.QueryAsync<T>(sql, parameters);
+            return await provider.QuerySingleAsync<T>(sql, parameters, transaction);
         }
 
-        public async Task<T> QuerySingleAsync<T>(string sql, object parameters = null)
+        public async Task<int> ExecuteAsync(IDbConnection provider, string sql, object parameters = null, IDbTransaction transaction = null)
         {
-            return await _connection.QuerySingleAsync<T>(sql, parameters);
+            return await provider.ExecuteAsync(sql, parameters, transaction);
         }
-
-        public async Task<int> ExecuteAsync(string sql, object parameters = null)
-        {
-            return await _connection.ExecuteAsync(sql, parameters);
-        }
-
 
     }
 }

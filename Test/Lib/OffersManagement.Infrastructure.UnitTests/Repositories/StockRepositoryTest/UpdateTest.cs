@@ -1,5 +1,6 @@
 ﻿using Moq;
 using OffersManagement.Domain.Entities;
+using System.Data;
 
 namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepositoryTest
 {
@@ -10,6 +11,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
               : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
+            private Mock<IDbConnection> _dbProvider = new();
 
 
             private StockRepository _sut;
@@ -19,21 +21,21 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
             {
                 _stockToUpdate = new Stock(1, 20);
 
-                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.ExecuteAsync(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()))
                               .Verifiable();
 
-                _sut = new StockRepository(_dapperWrapper.Object);
+                _sut = new StockRepository(_dapperWrapper.Object, _dbProvider.Object);
             }
 
             protected override async Task When()
             {
-               await _sut.UpdateStockAsync(_stockToUpdate);
+                await _sut.UpdateStockAsync(_stockToUpdate);
             }
 
             [Fact]
             public void Schould_Update_Stock_For_Product()
             {
-                _dapperWrapper.Verify(s => s.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
+                _dapperWrapper.Verify(s => s.ExecuteAsync(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()), Times.Once);
             }
 
         }

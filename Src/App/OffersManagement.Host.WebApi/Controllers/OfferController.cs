@@ -24,12 +24,12 @@ namespace OffersManagement.Host.WebApi.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var offers = await _offerService.GetAllAsync();
-            var offersModel = _offerConverter.Convert(offers);
-
-            if (offersModel == null)
+            if (offers == null)
             {
-                throw new ArgumentNullException(nameof(offersModel));
+                throw new ArgumentNullException(nameof(offers));
             }
+
+            var offersModel = _offerConverter.Convert(offers);
 
             return Ok(offersModel);
         }

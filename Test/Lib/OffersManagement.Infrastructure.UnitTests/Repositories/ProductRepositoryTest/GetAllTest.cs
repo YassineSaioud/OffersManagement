@@ -2,6 +2,7 @@
 using NFluent;
 using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
+using System.Data;
 
 namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductRepositoryTest
 {
@@ -14,6 +15,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
             private Mock<IDapperWrapper> _dapperWrapper = new();
             private Mock<IPriceRepository> _priceRepository = new();
             private Mock<IStockRepository> _stockRepository = new();
+            private Mock<IDbConnection> _dbProvider = new();
 
             private ProductRepository _sut;
             private IEnumerable<Product> _result;
@@ -27,10 +29,10 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
                                   new ProductDto { Id = 3 , Brand = "Sarenza", Name="T-Shirt", Size ="L"}
                               };
 
-                _dapperWrapper.Setup(s => s.QueryAsync<ProductDto>(It.IsAny<string>(), It.IsAny<object>()))
+                _dapperWrapper.Setup(s => s.QueryAsync<ProductDto>(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()))
                               .ReturnsAsync(_productDtos);
 
-                _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object);
+                _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object, _dbProvider.Object);
             }
 
             protected override async Task When()
