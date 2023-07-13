@@ -10,26 +10,26 @@ namespace OffersManagement.Application.UnitTests.Implemntations.OfferServiceTest
         public class Given_OfferUpdateCommand_When_Get_All_Offers
             : Given_When_Then_Test_Async
         {
-            private readonly Mock<IProductRepository> _productRepository = new();
+            private readonly Mock<IOfferRepository> _offerRepository = new();
 
             private OfferService _sut;
             private IEnumerable<Offer> _result;
 
-            private List<Product> _products;
+            private List<Offer> _offers;
 
             protected override void Given()
             {
-                _products = new List<Product>
+                _offers = new List<Offer>
                 {
-                    new Product(1, "T-Shirt", "Sarenza", "S", new Price(1, 20), new Stock(1, 50)),
-                    new Product(2, "T-Shirt", "Sarenza", "M", new Price(2, 25), new Stock(2, 50)),
-                    new Product(3, "T-Shirt", "Sarenza", "L", new Price(3, 30), new Stock(3, 50))
+                    new Offer(new Product(1, "T-Shirt", "Sarenza", "S"), new Price(1, 20), new Stock(1, 50)),
+                    new Offer(new Product(1, "T-Shirt", "Sarenza", "M"), new Price(1, 20), new Stock(1, 50)),
+                    new Offer(new Product(1, "T-Shirt", "Sarenza", "L"), new Price(1, 20), new Stock(1, 50))
                 };
 
-                _productRepository.Setup(s => s.GetAllAsync())
-                                  .ReturnsAsync(_products);
+                _offerRepository.Setup(s => s.GetAllAsync())
+                                  .ReturnsAsync(_offers);
 
-                _sut = new OfferService(_productRepository.Object);
+                _sut = new OfferService(_offerRepository.Object);
             }
 
             protected override async Task When()
@@ -45,4 +45,5 @@ namespace OffersManagement.Application.UnitTests.Implemntations.OfferServiceTest
 
         }
     }
+
 }

@@ -25,6 +25,7 @@ var services = builder.Services;
     services.AddScoped<IOfferConverter, OfferConverter>();
     services.AddScoped<IDbConnection>(db => new NpgsqlConnection(configuration.GetConnectionString("OffersDatabase")));
     services.AddScoped<IDapperWrapper, DapperWrapper>();
+    services.AddScoped<IOfferRepository, OfferRepository>();
     services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<IPriceRepository, PriceRepository>();
     services.AddScoped<IStockRepository, StockRepository>();

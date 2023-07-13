@@ -44,8 +44,8 @@ namespace OffersManagement.Host.WebApi.UnitTests.Converters.OfferConverterTests
             {
                 _offers = new List<Offer>()
                 {
-                    new Offer(new Product(1, "T-Shirt", "Sarenza", "M", new Price(1,30), new Stock(1,50))),
-                    new Offer(new Product(2, "T-Shirt", "Sarenza", "L", new Price(2,20), new Stock(1,100)))
+                    new Offer(new Product(1, "T-Shirt", "Sarenza", "M"), new Price(1,30), new Stock(1,50)),
+                    new Offer(new Product(2, "T-Shirt", "Sarenza", "L"), new Price(2,20), new Stock(1,100))
                 };
                 _sut = new OfferConverter();
             }

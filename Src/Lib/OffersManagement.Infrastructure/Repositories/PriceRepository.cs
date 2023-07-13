@@ -18,7 +18,7 @@ namespace OffersManagement.Infrastructure
             _dbProvider = dbProvider;
         }
 
-        public async Task<Price> GetPriceByProductIdAsync(int productId)
+        public async Task<Price> GetByProductIdAsync(int productId)
         {
             var sqlQuery = "SELECT product_id,value FROM price WHERE product_id=@product_id";
             var dbPrice = await _dapperWrapper.QuerySingleAsync<PriceDto>(_dbProvider, sqlQuery, new
@@ -31,10 +31,10 @@ namespace OffersManagement.Infrastructure
                 throw new ArgumentNullException(nameof(dbPrice));
             }
 
-            return new Price((int)dbPrice.ProductId, dbPrice.Value);
+            return new Price(dbPrice.ProductId, dbPrice.Value);
         }
 
-        public async Task<int> AddPriceAsync(Price price)
+        public async Task<int> AddAsync(Price price)
         {
             var sqlQuery = "INSERT INTO price(product_id,value) VALUES (@product_id,@value)";
             var priceResult = await _dapperWrapper.ExecuteAsync(_dbProvider, sqlQuery, new
@@ -46,7 +46,7 @@ namespace OffersManagement.Infrastructure
             return priceResult;
         }
 
-        public async Task<int> UpdatePriceAsync(Price price)
+        public async Task<int> UpdateAsync(Price price)
         {
             var sqlQuery = "UPDATE price SET value=@value WHERE product_id=@product_id";
             var priceResult = await _dapperWrapper.ExecuteAsync(_dbProvider, sqlQuery, new

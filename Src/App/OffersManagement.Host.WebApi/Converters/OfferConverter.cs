@@ -8,7 +8,7 @@ namespace OffersManagement.Host.WebApi
         public Offer Convert(OfferModel offerModel)
         {
             if (offerModel is null)
-            { 
+            {
                 throw new ArgumentNullException(nameof(offerModel), "Can not convert a empty offer.");
             }
 
@@ -17,11 +17,9 @@ namespace OffersManagement.Host.WebApi
             var product = new Product(offerModel.ProductId,
                                       offerModel.ProductName,
                                       offerModel.ProductBrand,
-                                      offerModel.ProductSize,
-                                      price,
-                                      stock);
+                                      offerModel.ProductSize);
 
-            return new Offer(product);
+            return new Offer(product, price, stock);
         }
 
         public IEnumerable<OfferModel> Convert(IEnumerable<Offer> offers)
@@ -36,8 +34,8 @@ namespace OffersManagement.Host.WebApi
                                          offer.Product.Name,
                                          offer.Product.Brand,
                                          offer.Product.Size,
-                                         offer.Product.Price.Value,
-                                         offer.Product.Stock.Quantity
+                                         offer.Price.Value,
+                                         offer.Stock.Quantity
                                         );
         }
     }

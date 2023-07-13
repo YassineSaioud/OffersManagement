@@ -27,7 +27,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
 
             protected override async Task When()
             {
-                _result = await _sut.GetStockByProductIdAsync(1);
+                _result = await _sut.GetByProductIdAsync(1);
             }
 
             [Fact]

@@ -29,7 +29,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
 
             protected override async Task When()
             {
-                await _sut.UpdateStockAsync(_stockToUpdate);
+                await _sut.UpdateAsync(_stockToUpdate);
             }
 
             [Fact]

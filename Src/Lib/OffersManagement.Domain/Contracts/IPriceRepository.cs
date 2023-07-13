@@ -4,8 +4,8 @@ namespace OffersManagement.Domain.Contracts
 {
     public interface IPriceRepository
     {
-        Task<Price> GetPriceByProductIdAsync(int productId);
-        Task<int> AddPriceAsync(Price price);
-        Task<int> UpdatePriceAsync(Price price);
+        Task<Price> GetByProductIdAsync(int productId);
+        Task<int> AddAsync(Price price);
+        Task<int> UpdateAsync(Price price);
     }
 }

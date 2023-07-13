@@ -1,6 +1,5 @@
 ﻿using Moq;
 using NFluent;
-using OffersManagement.Domain.Contracts;
 using OffersManagement.Domain.Entities;
 using System.Data;
 
@@ -13,8 +12,6 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
             : Given_When_Then_Test_Async
         {
             private Mock<IDapperWrapper> _dapperWrapper = new();
-            private Mock<IPriceRepository> _priceRepository = new();
-            private Mock<IStockRepository> _stockRepository = new();
             private Mock<IDbConnection> _dbProvider = new();
 
             private ProductRepository _sut;
@@ -32,7 +29,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.ProductReposito
                 _dapperWrapper.Setup(s => s.QueryAsync<ProductDto>(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IDbTransaction>()))
                               .ReturnsAsync(_productDtos);
 
-                _sut = new ProductRepository(_dapperWrapper.Object, _priceRepository.Object, _stockRepository.Object, _dbProvider.Object);
+                _sut = new ProductRepository(_dapperWrapper.Object, _dbProvider.Object);
             }
 
             protected override async Task When()

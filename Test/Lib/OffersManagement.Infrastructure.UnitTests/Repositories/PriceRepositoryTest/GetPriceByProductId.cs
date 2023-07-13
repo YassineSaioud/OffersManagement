@@ -27,7 +27,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
 
             protected override async Task When()
             {
-                _result = await _sut.GetPriceByProductIdAsync(1);
+                _result = await _sut.GetByProductIdAsync(1);
             }
 
             [Fact]

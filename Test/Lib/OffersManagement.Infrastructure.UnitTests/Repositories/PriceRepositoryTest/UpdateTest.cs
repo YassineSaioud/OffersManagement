@@ -29,7 +29,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.PriceRepository
 
             protected override async Task When()
             {
-                await _sut.UpdatePriceAsync(_priceToUpdate);
+                await _sut.UpdateAsync(_priceToUpdate);
             }
 
             [Fact]

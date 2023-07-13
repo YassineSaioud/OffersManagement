@@ -7,66 +7,44 @@ namespace OffersManagement.Application
         : IOfferService
     {
 
-        private readonly IProductRepository _productRepository;
+        private readonly IOfferRepository _offerRepository;
 
-        public OfferService(IProductRepository productRepository)
+        public OfferService(IOfferRepository offerRepository)
         {
-            _productRepository = productRepository;
+            _offerRepository = offerRepository;
         }
 
         public async Task<IEnumerable<Offer>> GetAllAsync()
         {
-            var products = await _productRepository.GetAllAsync();
-            if (!products.Any())
+            var offers = await _offerRepository.GetAllAsync();
+            if (offers is null)
             {
                 throw new Exception("Empty result.");
             }
 
-            return from product in products
-                   select new Offer(product);
+            return offers;
         }
 
         public async Task<int> CreateAsync(Offer offer)
         {
-            if (offer == null)
+            if (offer is null)
             {
                 throw new ArgumentNullException(nameof(offer), "Can not create a empty offer.");
             }
 
-            var product = new Product(offer.Product.Id,
-                                      offer.Product.Name,
-                                      offer.Product.Brand,
-                                      offer.Product.Size,
-                                      offer.Product.Price,
-                                      offer.Product.Stock);
-
-            return await _productRepository.AddProductAsync(product);
+            return await _offerRepository.AddAsync(offer);
         }
-
-
 
         public async Task<int> UpdateAsync(Offer offer)
         {
-            if (offer == null)
+            if (offer is null)
             {
-                throw new ArgumentNullException(nameof(offer), "Can not update empty offer.");
+                throw new ArgumentNullException(nameof(offer), "Can not update a empty offer.");
             }
 
-            if (offer?.Product?.Id == default)
-            {
-                throw new ArgumentException(nameof(offer), "Can not update offer without id.");
-
-            }
-
-            var product = new Product(offer.Product.Id,
-                                      offer.Product.Name,
-                                      offer.Product.Brand,
-                                      offer.Product.Size,
-                                      offer.Product.Price,
-                                      offer.Product.Stock);
-
-            return await _productRepository.UpdateProductAsync(product);
+            return await _offerRepository.UpdateAsync(offer);
         }
+
     }
 }
 

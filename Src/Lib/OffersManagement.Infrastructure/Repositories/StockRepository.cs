@@ -17,7 +17,7 @@ namespace OffersManagement.Infrastructure
             _dbProvider = dbProvider;
         }
 
-        public async Task<Stock> GetStockByProductIdAsync(int productId)
+        public async Task<Stock> GetByProductIdAsync(int productId)
         {
             var sqlQuery = $"SELECT product_id,quantity FROM stock WHERE product_id=@product_id";
             var dbStock = await _dapperWrapper.QuerySingleAsync<StockDto>(_dbProvider, sqlQuery, new
@@ -33,7 +33,7 @@ namespace OffersManagement.Infrastructure
             return new Stock(dbStock.ProductId, dbStock.Quantity);
         }
 
-        public async Task<int> AddStockAsync(Stock stock)
+        public async Task<int> AddAsync(Stock stock)
         {
             var sqlQuery = $"INSERT INTO stock(product_id,quantity) VALUES (@product_id,@quantity)";
             var result = await _dapperWrapper.ExecuteAsync(_dbProvider, sqlQuery, new
@@ -45,7 +45,7 @@ namespace OffersManagement.Infrastructure
             return result;
         }
 
-        public async Task<int> UpdateStockAsync(Stock stock)
+        public async Task<int> UpdateAsync(Stock stock)
         {
             var sqlQuery = "UPDATE stock SET quantity=@quantity WHERE product_id=@product_id";
             var result = await _dapperWrapper.ExecuteAsync(_dbProvider, sqlQuery, new

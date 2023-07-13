@@ -10,24 +10,23 @@ namespace OffersManagement.Application.UnitTests.Implemntations.OfferServiceTest
         public class Given_OfferUpdateCommand_When_Update_Offer
             : Given_When_Then_Test_Async
         {
-            private readonly Mock<IProductRepository> _productRepository = new();
+            private readonly Mock<IOfferRepository> _offerRepository = new();
 
             private OfferService _sut;
-
             private Offer _offerToUpdate;
-            private Product _productToUpdate;
 
             protected override void Given()
             {
                 var priceToUpdate = new Price(1, 30);
                 var stockToUpdate = new Stock(1, 50);
-                _productToUpdate = new Product(1, "T-Shirt", "Sarenza", "XL", priceToUpdate, stockToUpdate);
-                _offerToUpdate = new Offer(_productToUpdate);
+                var productToUpdate = new Product(1, "T-Shirt", "Sarenza", "XL");
 
-                _productRepository.Setup(s => s.AddProductAsync(_productToUpdate))
-                                  .Verifiable();
+                _offerToUpdate = new Offer(productToUpdate, priceToUpdate, stockToUpdate);
 
-                _sut = new OfferService(_productRepository.Object);
+                _offerRepository.Setup(s => s.AddAsync(_offerToUpdate))
+                                .Verifiable();
+
+                _sut = new OfferService(_offerRepository.Object);
             }
 
             protected override async Task When()
@@ -38,7 +37,7 @@ namespace OffersManagement.Application.UnitTests.Implemntations.OfferServiceTest
             [Fact]
             public void Then_Should_Update_Offer()
             {
-                _productRepository.Verify(v => v.UpdateProductAsync(_productToUpdate));
+                _offerRepository.Verify(v => v.UpdateAsync(_offerToUpdate));
             }
 
         }

@@ -9,24 +9,24 @@ namespace OffersManagement.Application.UnitTests.Implemntations.OfferServiceTest
         public class Given_OfferCreateCommand_When_Create_Offer
             : Given_When_Then_Test_Async
         {
-            private readonly Mock<IProductRepository> _productRepository = new();
+            private readonly Mock<IOfferRepository> _offerRepository = new();
 
             private OfferService _sut;
 
             private Offer _offerToCreate;
-            private Product _productToCreate;
 
             protected override void Given()
             {
                 var priceToCreate = new Price(1, 30);
                 var stockToCreate = new Stock(1, 50);
-                _productToCreate = new Product(1, "T-Shirt", "Sarenza", "S", priceToCreate, stockToCreate);
-                _offerToCreate = new Offer(_productToCreate);
+                var productToCreate = new Product(1, "T-Shirt", "Sarenza", "S");
 
-                _productRepository.Setup(s => s.AddProductAsync(_productToCreate))
-                                  .Verifiable();
+                _offerToCreate = new Offer(productToCreate, priceToCreate, stockToCreate);
 
-                _sut = new OfferService(_productRepository.Object);
+                _offerRepository.Setup(s => s.AddAsync(_offerToCreate))
+                                .Verifiable();
+
+                _sut = new OfferService(_offerRepository.Object);
             }
 
             protected override async Task When()
@@ -37,7 +37,7 @@ namespace OffersManagement.Application.UnitTests.Implemntations.OfferServiceTest
             [Fact]
             public void Then_Should_Create_Offer()
             {
-                _productRepository.Verify(v => v.AddProductAsync(_productToCreate));
+                _offerRepository.Verify(v => v.AddAsync(_offerToCreate));
             }
 
         }

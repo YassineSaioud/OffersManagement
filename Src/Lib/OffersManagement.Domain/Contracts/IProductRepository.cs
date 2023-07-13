@@ -5,8 +5,8 @@ namespace OffersManagement.Domain.Contracts
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAllAsync();
-        Task<int> AddProductAsync(Product product);
-        Task<int> UpdateProductAsync(Product product);
+        Task<int> AddAsync(Product product);
+        Task<int> UpdateAsync(Product product);
     }
 }
 

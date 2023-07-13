@@ -28,7 +28,7 @@ namespace OffersManagement.Infrastructure.UnitTests.Repositories.StockRepository
 
             protected override async Task When()
             {
-                await _sut.AddStockAsync(_priceToCreate);
+                await _sut.AddAsync(_priceToCreate);
             }
 
             [Fact]
